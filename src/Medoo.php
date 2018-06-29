@@ -2,7 +2,7 @@
 /*!
  * Medoo database framework
  * https://medoo.in
- * Version 1.5.9
+ * Version 1.6
  *
  * Copyright 2018, Angel Lai
  * Updated by Lambasoft
@@ -447,7 +447,12 @@ class Medoo{
     }
 
     protected function tableQuote($table){
-        return '"' . $this->getOption("PREFIX") . $table . '"';
+        //TODO: Better implement tables that should not be double quoted
+        if(!substr( $table, 0, strlen("INFORMATION_SCHEMA") ) === "INFORMATION_SCHEMA"){
+            return '"' . $this->getOption("PREFIX") . $table . '"';
+        }else{
+            return '`' . $this->getOption("PREFIX") . $table . '`';
+        }
     }
 
     protected function mapKey(){
