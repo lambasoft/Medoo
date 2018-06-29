@@ -2,7 +2,7 @@
 /*!
  * Medoo database framework
  * https://medoo.in
- * Version 1.5.8
+ * Version 1.5.9
  *
  * Copyright 2018, Angel Lai
  * Updated by Lambasoft
@@ -24,6 +24,29 @@ class DataStructure{
     const LEGACY = 1;
     const DSN = 2;
 }
+
+class MY_PDO extends PDO{
+    public function __construct($dsn, $username, $passwd, $options){
+        parent::__construct($dsn, $username, $passwd, $options);
+        parent::setAttribute(PDO::ATTR_STATEMENT_CLASS, array('MY_STATEMENT', array($this)));
+    }
+
+
+}
+
+class MY_STATEMENT extends \PDOStatement{
+    protected $pdo;
+    protected function __construct($pdo){
+        $this->pdo = $pdo;
+	}
+
+    public function fetchAll ($how = null, $className = null, $ctorArgs = null) {
+        $result =  parent::fetchAll($how, $className,$ctorArgs);
+        $this->closeCursor();
+        return $result;
+    }
+}
+
 
 /**
  * Class Medoo
@@ -310,7 +333,6 @@ class Medoo{
         $query = $this->buildRaw($raw, $map);
 
         $result =  $this->exec($query, $map);
-        $this->closeCursor();
 
         return $result;
     }
