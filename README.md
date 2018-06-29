@@ -10,6 +10,8 @@
 
 > The Lightest PHP database framework to accelerate development
 
+Edited by Lambasoft to better support Stored Procedures
+
 ## Features
 
 * **Lightweight** - Less than 100 KB, portable with only one file
