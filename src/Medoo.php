@@ -448,10 +448,10 @@ class Medoo{
 
     protected function tableQuote($table){
         //TODO: Better implement tables that should not be double quoted
-        if(!substr( $table, 0, strlen("INFORMATION_SCHEMA") ) === "INFORMATION_SCHEMA"){
+        if(!substr( $table, 0, strlen("INFORMATION_SCHEMA")) == "INFORMATION_SCHEMA"){
             return '"' . $this->getOption("PREFIX") . $table . '"';
         }else{
-            return '`' . $this->getOption("PREFIX") . $table . '`';
+            return  $this->getOption("PREFIX") . $table;
         }
     }
 
